@@ -9,11 +9,25 @@ const api = axios.create({
     },
 });
 
+// login
 export const fetchData = async (email, password) => {
     const data = { email, password };
 
     try {
         const response = await api.post('users/signin-mobile', data);
+        console.log('response', response);
+        return response.data;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error; 
+    }
+};
+// signup
+export const fetchDatasignup = async (first_name, email, password, mobile ) => {
+    const data = { first_name, email, password, mobile  };
+
+    try {
+        const response = await api.post('users/signup-mobile', data);
         console.log('response', response);
         return response.data;
     } catch (error) {

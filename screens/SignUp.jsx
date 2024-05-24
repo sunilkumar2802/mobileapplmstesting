@@ -6,24 +6,24 @@ import { SignUpBanner } from '../svgs';
 import Button from '../components/Button';
 import TouchableLink from '../components/TouchableLink';
 import CustomTextInput from '../components/CustomTextInput';
-
+import { fetchDatasignup } from '../services/service.api';
 const SignUp = ({ navigation }) => {
-    const [name, setName] = useState('');
+    const [first_name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [mobile, setPhoneNumber] = useState('');
     const [loading, setLoading] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
-        const isValid = validateName(name) && validateEmail(email) && validatePassword(password) && validatePhoneNumber(phoneNumber);
+        const isValid = validateName(first_name) && validateEmail(email) && validatePassword(password) && validatePhoneNumber(mobile);
         setIsFormValid(isValid);
-    }, [name, email, password, phoneNumber]);
+    }, [first_name, email, password, mobile]);
 
     const handleSignUp = async () => {
         setLoading(true);
         try {
-            if (!validateName(name)) {
+            if (!validateName(first_name)) {
                 throw new Error('Invalid name format');
             }
 
@@ -35,14 +35,15 @@ const SignUp = ({ navigation }) => {
                 throw new Error('Invalid password format');
             }
 
-            if (!validatePhoneNumber(phoneNumber)) {
+            if (!validatePhoneNumber(mobile)) {
                 throw new Error('Invalid phone number format');
             }
 
-            const data = { name, email, password, phoneNumber };
+            const data = { first_name, email, password, mobile };
             console.log('Sign up data', data);
             // Call your signup API here
-
+            const response = await fetchDatasignup(first_name, email, password, mobile);
+            console.log('Login successful:', response);
             navigation.navigate('MainScreen');
         } catch (error) {
             console.error('Sign up error:', error);
@@ -52,8 +53,8 @@ const SignUp = ({ navigation }) => {
         }
     };
 
-    const validateName = (name) => {
-        return name.length > 0;
+    const validateName = (first_name) => {
+        return first_name.length > 0;
     };
 
     const validateEmail = (email) => {
@@ -65,9 +66,9 @@ const SignUp = ({ navigation }) => {
         return password.length >= 4;
     };
 
-    const validatePhoneNumber = (phoneNumber) => {
+    const validatePhoneNumber = (mobile) => {
         const phoneRegex = /^[0-9]{10}$/;
-        return phoneRegex.test(phoneNumber);
+        return phoneRegex.test(mobile);
     };
 
     return (
@@ -82,7 +83,7 @@ const SignUp = ({ navigation }) => {
             <View style={styles.loginFormWrapper}>
                 <CustomTextInput
                     placeholder="Name"
-                    value={name}
+                    value={first_name}
                     onChangeText={setName}
                 />
                 <CustomTextInput
@@ -94,7 +95,7 @@ const SignUp = ({ navigation }) => {
                 />
                 <CustomTextInput
                     placeholder="Phone Number"
-                    value={phoneNumber}
+                    value={mobile}
                     onChangeText={setPhoneNumber}
                     keyboardType="phone-pad"
                 />

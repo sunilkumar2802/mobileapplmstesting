@@ -82,6 +82,10 @@ const Login = ({ navigation }) => {
                 />
                 <TouchableLink title="Forgot Password?" />
                 <Button title="Log in" onClick={handleLogin} disabled={!isFormValid || loading} />
+                {/* <Button title={'Log in'} onClick={()=>{
+                        console.log('here we are1 ')
+                        navigation.navigate('MainScreen')
+                    }} /> */}
                 <TouchableLink title="Sign up" onClick={() => navigation.navigate('SignUp')} />
             </View>
         </View>

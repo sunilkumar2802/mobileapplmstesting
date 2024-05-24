@@ -14,7 +14,7 @@ export const fetchData = async (email, password) => {
     const data = { email, password };
 
     try {
-        const response = await api.post('users/signin-mobile', data);
+        const response = await api.post('users/signin-mobile/', data);
         console.log('response', response);
         return response.data;
     } catch (error) {
@@ -27,7 +27,7 @@ export const fetchDatasignup = async (first_name, email, password, mobile ) => {
     const data = { first_name, email, password, mobile  };
 
     try {
-        const response = await api.post('users/signup-mobile', data);
+        const response = await api.post('users/signup-mobile/', data);
         console.log('response', response);
         return response.data;
     } catch (error) {

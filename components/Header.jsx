@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
         alignItems:'center', 
         justifyContent:'center', 
         textAlign:'center', 
-        width: 263 
+        width: 203 
     },
 })

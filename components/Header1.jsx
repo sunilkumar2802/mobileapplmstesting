@@ -45,7 +45,7 @@ const Header1 = ({ title, pageHeaderStyle, goBack }) => {
                 <Heading title={title} />
             </View>
             <View style={styles.logoutButtonWrapper}>
-                <Button title="Logout" color="orange" onPress={confirmLogout} />
+                <Button title="Logout" color="#E3562A" onPress={confirmLogout} />
             </View>
         </View>
     );

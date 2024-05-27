@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet,ScrollView, ActivityIndicator } from 'react-native';
 import { fetchCoursevideo ,fetchCourseDetails } from '../services/service.api';
-import Header from '../components/Header';
+import Header1 from '../components/Header1';
 
 const Coursevideo = ({ route }) => {
     const { slug } = route.params;
@@ -48,7 +48,7 @@ const Coursevideo = ({ route }) => {
 
     return (
         <>
-        <Header title={courseDetails ? courseDetails.title : 'Loading...'} pageHeaderStyle={{marginBottom:16}} />
+        <Header1 title={courseDetails ? courseDetails.title : 'Loading...'} pageHeaderStyle={{marginBottom:16}} />
         <View style={styles.container}>
             {/* <Text style={styles.title}>{courseDetails.title}</Text> */}
             <Text style={styles.shortDesc}>{courseDetails.short_desc}</Text>

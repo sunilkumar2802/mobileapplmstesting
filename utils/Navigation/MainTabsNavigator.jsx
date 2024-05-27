@@ -10,22 +10,23 @@ import CourseTestResult from '../../screens/CourseTestResult';
 import CourseTests from '../../screens/CourseTests';
 import CourseSaved from '../../screens/Other/CourseSaved';
 import Profile from '../../screens/Profile';
-import CourseList from '../../screens/CourseList'; 
+import CourseList from '../../screens/CourseList';
 import Setting from '../../screens/Setting';
 import SingleCourse from '../../screens/SingleCourse';
 import YourCourses from '../../screens/YourCourses';
 import Tabs from './Tabs';
+import Coursevideo from '../../screens/Coursevideo';
 
 const ProfileStack = createStackNavigator();
 
-const ProfileStackScreen = ()=>{
- return (
-   <ProfileStack.Navigator>
-        <ProfileStack.Screen name="Home" component={Profile} options={{headerShown: false}} />
-        <ProfileStack.Screen name="YourCourse" component={YourCourses} options={{headerShown: false}}/>
-        <ProfileStack.Screen name="SavedCourse" component={CourseSaved} options={{headerShown: false}}/>
-        <ProfileStack.Screen name="CoursePayment" component={CourseSaved} options={{headerShown: false}}/>
-   </ProfileStack.Navigator>
+const ProfileStackScreen = () => {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen name="Home" component={Profile} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="YourCourse" component={YourCourses} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="SavedCourse" component={CourseSaved} options={{ headerShown: false }} />
+      <ProfileStack.Screen name="CoursePayment" component={CourseSaved} options={{ headerShown: false }} />
+    </ProfileStack.Navigator>
   );
 }
 
@@ -34,13 +35,13 @@ const CourseStack = createStackNavigator()
 const CoursesStackScreen = () => {
   return (
     <CourseStack.Navigator>
-        <CourseStack.Screen name="Home" component={Courses} options={{headerShown: false}} />
-        <CourseStack.Screen name="SingleCourse" component={SingleCourse} options={{headerShown: false}}/>
-        <CourseStack.Screen name="CourseContent" component={CourseContent} options={{headerShown: false}}/>
-        <CourseStack.Screen name="CourseLesson" component={CourseLesson} options={{headerShown: false}}/>
-        <CourseStack.Screen name="CourseTests" component={CourseTests} options={{headerShown: false}}/>
-        <CourseStack.Screen name="TestBegin" component={CourseTestPage} options={{headerShown: false}}/>
-        <CourseStack.Screen name="CourseTestResult" component={CourseTestResult} options={{headerShown: false}}/>
+      <CourseStack.Screen name="Home" component={Courses} options={{ headerShown: false }} />
+      <CourseStack.Screen name="SingleCourse" component={SingleCourse} options={{ headerShown: false }} />
+      <CourseStack.Screen name="CourseContent" component={CourseContent} options={{ headerShown: false }} />
+      <CourseStack.Screen name="CourseLesson" component={CourseLesson} options={{ headerShown: false }} />
+      <CourseStack.Screen name="CourseTests" component={CourseTests} options={{ headerShown: false }} />
+      <CourseStack.Screen name="TestBegin" component={CourseTestPage} options={{ headerShown: false }} />
+      <CourseStack.Screen name="CourseTestResult" component={CourseTestResult} options={{ headerShown: false }} />
     </CourseStack.Navigator>
   )
 }
@@ -49,23 +50,27 @@ const Tab = createBottomTabNavigator();
 
 const CourselistStack = createStackNavigator();
 
-const CourselistStackScreen = ()=>{
- return (
-   <CourselistStack.Navigator>
-        <CourselistStack.Screen name="Courselist" component={CourseList} options={{headerShown: false}} />  
-   </CourselistStack.Navigator>
+const CourselistStackScreen = () => {
+  return (
+    <CourselistStack.Navigator>
+      <CourselistStack.Screen name="Courselist" component={CourseList} options={{ headerShown: false }} />
+    </CourselistStack.Navigator>
   );
 }
 
 const MainTabsNavigator = () => {
-    return (
-        <Tab.Navigator initialRouteName="Courses" tabBar={props => <Tabs {...props} />}>
-            {/* <Tab.Screen name="Courses" component={CoursesStackScreen} options={{headerShown: false}} /> */}
-            {/* <Tab.Screen name="Courses" component={ProfileStackScreen} options={{headerShown: false}} /> */}
-            {/* <Tab.Screen name="Settings" component={Setting} options={{headerShown: false}} /> */}
-            <Tab.Screen name="Courses" component={CourselistStackScreen} options={{headerShown: false}} />
-        </Tab.Navigator>
-    )
+  return (
+    // <Tab.Navigator initialRouteName="Courses" tabBar={props => <Tabs {...props} />}>
+    //     {/* <Tab.Screen name="Courses" component={CoursesStackScreen} options={{headerShown: false}} /> */}
+    //     {/* <Tab.Screen name="Courses" component={ProfileStackScreen} options={{headerShown: false}} /> */}
+    //     {/* <Tab.Screen name="Settings" component={Setting} options={{headerShown: false}} /> */}
+    //     <Tab.Screen name="Courses" component={CourselistStackScreen} options={{headerShown: false}} />
+    // </Tab.Navigator>
+    <CourselistStack.Navigator>
+      <CourselistStack.Screen name="Courselist" component={CourseList} options={{ headerShown: false }} />
+      <CourselistStack.Screen name="Coursevideo" component={Coursevideo} options={{ headerShown: false }} />
+    </CourselistStack.Navigator>
+  )
 }
 
 export default MainTabsNavigator

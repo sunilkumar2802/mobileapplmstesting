@@ -86,7 +86,8 @@ export const fetchLearnings = async () => {
 };
 
 //Course-Video
-export const fetchCoursevideo = async () => {
+export const fetchCoursevideo = async (slug) => {
+    console.log(slug);
     const elarnivUsersToken = await retrieveToken();
     if (!elarnivUsersToken) {
         throw new Error('User is not authenticated');
@@ -95,13 +96,40 @@ export const fetchCoursevideo = async () => {
     }
 
     try {
-        const response = await api.get('learnings/videos/slug', {
+        const response = await api.get(`learnings/videos/${slug}/`, {
             headers: {
                 'Authorization': `${elarnivUsersToken}`
             }
         });
         console.log('response', response);
-        return response.data;
+        console.log('response response.data',response.data)
+        return response.data.videos;
+        
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+};
+
+export const fetchCourseDetails = async (slug) => {
+    console.log(slug);
+    const elarnivUsersToken = await retrieveToken();
+    if (!elarnivUsersToken) {
+        throw new Error('User is not authenticated');
+        console.log(' User is not authenticated');
+
+    }
+
+    try {
+        const response = await api.get(`learnings/videos/${slug}/`, {
+            headers: {
+                'Authorization': `${elarnivUsersToken}`
+            }
+        });
+        console.log('response', response);
+        console.log('response response.data',response.data)
+        return response.data.course;
+        
     } catch (error) {
         console.error('Fetch error:', error);
         throw error;

@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { LoginBanner } from '../svgs';
 import Button from '../components/Button';
@@ -13,28 +13,26 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(false);
 
-   
-
-
+    useEffect(() => {
+        const isValid = validateEmail(email) && validatePassword(password);
+        setIsFormValid(isValid);
+        console.log('Form valid:', isValid); // Debug log
+    }, [email, password]);
 
     const handleLogin = async () => {
         setLoading(true);
         try {
-            // Validate email format
             if (!validateEmail(email)) {
                 throw new Error('Invalid email format');
             }
-    
-            // Validate password format
+
             if (!validatePassword(password)) {
                 throw new Error('Invalid password format');
             }
-    
-            const data = { email, password };
-            console.log('Login data', data);
-    
-            const response= await fetchData(email, password);
+
+            const response = await fetchData(email, password);
             console.log('Login successful:', response);
             navigation.navigate('MainScreen');
         } catch (error) {
@@ -44,16 +42,13 @@ const Login = ({ navigation }) => {
             setLoading(false);
         }
     };
-    
+
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
-   
-
     const validatePassword = (password) => {
-       
         return password.length >= 4;
     };
 
@@ -86,7 +81,11 @@ const Login = ({ navigation }) => {
                     secureTextEntry
                 />
                 <TouchableLink title="Forgot Password?" />
-                <Button title="Log in" onClick={handleLogin} disabled={loading} />
+                <Button title="Log in" onClick={handleLogin} disabled={!isFormValid || loading} />
+                {/* <Button title={'Log in'} onClick={()=>{
+                        console.log('here we are1 ')
+                        navigation.navigate('MainScreen')
+                    }} /> */}
                 <TouchableLink title="Sign up" onClick={() => navigation.navigate('SignUp')} />
             </View>
         </View>

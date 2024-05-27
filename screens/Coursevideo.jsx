@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet,ScrollView, ActivityIndicator } from 'react-native';
 import { fetchCoursevideo ,fetchCourseDetails } from '../services/service.api';
 import Header1 from '../components/Header1';
 
@@ -52,12 +52,14 @@ const Coursevideo = ({ route }) => {
         <View style={styles.container}>
             {/* <Text style={styles.title}>{courseDetails.title}</Text> */}
             <Text style={styles.shortDesc}>{courseDetails.short_desc}</Text>
+            <ScrollView contentContainerStyle={styles.coursesCardsWrapper} showsVerticalScrollIndicator={false}>
             {videos.map(video => (
                 <View key={video.id}>
                     <Text style={styles.videoTitle}>{video.title}</Text>
                     {/* Add your video player component here */}
                 </View>
             ))}
+            </ScrollView>
         </View>
         </>
     );

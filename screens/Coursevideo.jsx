@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet,ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet,ScrollView, ActivityIndicator,TouchableOpacity } from 'react-native';
 import { fetchCoursevideo ,fetchCourseDetails } from '../services/service.api';
-import Header1 from '../components/Header1';
+import Header from '../components/Header';
+import { WebView } from 'react-native-webview';
 
 const Coursevideo = ({ route }) => {
     const { slug } = route.params;
@@ -9,6 +10,8 @@ const Coursevideo = ({ route }) => {
     const [videos, setVideos] = useState([]); // Initialize videos state as an empty array 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
+    console.log()
 
     useEffect(() => {
         const loadCourse = async () => {
@@ -20,6 +23,9 @@ const Coursevideo = ({ route }) => {
                 ]);
                 setCourseDetails(course);
                 setVideos(videoData);
+                if (videoData.length > 0) {
+                    setSelectedVideoUrl(videoData[0].video); // Set the first video URL as default
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -48,17 +54,39 @@ const Coursevideo = ({ route }) => {
 
     return (
         <>
-        <Header1 title={courseDetails ? courseDetails.title : 'Loading...'} pageHeaderStyle={{marginBottom:16}} />
+        <Header title={courseDetails ? courseDetails.title : 'Loading...'} pageHeaderStyle={{marginBottom:16}} />
         <View style={styles.container}>
             {/* <Text style={styles.title}>{courseDetails.title}</Text> */}
+             {/* Add your video player component here */}  
+             {selectedVideoUrl && (
+                    <WebView
+                        style={styles.webView}
+                        javaScriptEnabled={true}
+                        domStorageEnabled={true}
+                        source={{ uri: selectedVideoUrl }}
+                    />
+                )}
+            <Text style={styles.title}>Description</Text>
             <Text style={styles.shortDesc}>{courseDetails.short_desc}</Text>
             <ScrollView contentContainerStyle={styles.coursesCardsWrapper} showsVerticalScrollIndicator={false}>
-            {videos.map(video => (
+            {/* {videos.map(video => (
                 <View key={video.id}>
                     <Text style={styles.videoTitle}>{video.title}</Text>
-                    {/* Add your video player component here */}
+                    <WebView
+                                style={styles.webView}
+                                javaScriptEnabled={true}
+                                domStorageEnabled={true}
+                                source={{ uri: video.video }}
+                            />
                 </View>
-            ))}
+            ))} */}
+            {videos.map(video => (
+                        <TouchableOpacity key={video.id} onPress={() => setSelectedVideoUrl(video.video)}>
+                            <View style={styles.videoContainer}>
+                                <Text style={styles.videoTitle}>{video.title}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
             </ScrollView>
         </View>
         </>
@@ -98,5 +126,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 8,
+    },
+    videoContainer: {
+        marginBottom: 16,
+    },
+    coursesCardsWrapper: {
+        flexGrow: 1,
+    },
+    webView: {
+        height: 200,
+        marginBottom: 16,
     },
 });

@@ -1,11 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity ,Image } from 'react-native'
 import { CoursesTestCardsSvg1 } from '../svgs'
 
-const CourseCard = ({ duration, title, subTitle, onClick }) => {
+const CourseCard = ({ duration, title, subTitle,image , onClick }) => {
+    console.log(image )
     return (
     <TouchableOpacity style={styles.coursesCardsItem} onPress={onClick}>
-        <CoursesTestCardsSvg1 />
+        {/* <CoursesTestCardsSvg1 /> */}
+        <Image source={{ uri: image }} style={styles.courseImage} /> 
         <View>
             <Text style={styles.courseDuration}>{ duration }</Text>
             <Text style={styles.courseTitle}>{ title }</Text>
@@ -73,7 +75,11 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
     },
-
+    courseImage: {
+        width: '100%', 
+        height: 200, 
+        resizeMode: 'cover',
+    },
     coursePrice: {
         fontFamily: 'Rubik_500Medium',
         fontSize:12,

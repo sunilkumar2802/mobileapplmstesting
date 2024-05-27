@@ -10,6 +10,7 @@ import CourseTestResult from '../../screens/CourseTestResult';
 import CourseTests from '../../screens/CourseTests';
 import CourseSaved from '../../screens/Other/CourseSaved';
 import Profile from '../../screens/Profile';
+import CourseList from '../../screens/CourseList'; 
 import Setting from '../../screens/Setting';
 import SingleCourse from '../../screens/SingleCourse';
 import YourCourses from '../../screens/YourCourses';
@@ -46,13 +47,23 @@ const CoursesStackScreen = () => {
 
 const Tab = createBottomTabNavigator();
 
+const CourselistStack = createStackNavigator();
+
+const CourselistStackScreen = ()=>{
+ return (
+   <CourselistStack.Navigator>
+        <CourselistStack.Screen name="Courselist" component={CourseList} options={{headerShown: false}} />  
+   </CourselistStack.Navigator>
+  );
+}
 
 const MainTabsNavigator = () => {
     return (
         <Tab.Navigator initialRouteName="Courses" tabBar={props => <Tabs {...props} />}>
-            <Tab.Screen name="Courses" component={CoursesStackScreen} options={{headerShown: false}} />
-            <Tab.Screen name="Profile" component={ProfileStackScreen} options={{headerShown: false}} />
-            <Tab.Screen name="Settings" component={Setting} options={{headerShown: false}} />
+            {/* <Tab.Screen name="Courses" component={CoursesStackScreen} options={{headerShown: false}} /> */}
+            {/* <Tab.Screen name="Courses" component={ProfileStackScreen} options={{headerShown: false}} /> */}
+            {/* <Tab.Screen name="Settings" component={Setting} options={{headerShown: false}} /> */}
+            <Tab.Screen name="Courses" component={CourselistStackScreen} options={{headerShown: false}} />
         </Tab.Navigator>
     )
 }

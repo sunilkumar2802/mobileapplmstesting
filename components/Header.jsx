@@ -6,9 +6,9 @@ import Heading from './Typography/Heading'
 const Header = ({ title, pageHeaderStyle, goBack}) => {
     return (
     <View style={[styles.pageHeader, pageHeaderStyle]}>
-        <View style={styles.pageHeaderLeft}>
+        {/* <View style={styles.pageHeaderLeft}>
             <RingIcon iconName={'chevron-left'} goBack={goBack}  />
-        </View>
+        </View> */}
         <View style={styles.pageTitleWrapper}>
            <Heading title={title} />
         </View>
@@ -35,10 +35,8 @@ const styles = StyleSheet.create({
         marginLeft:16
     },
 
-    pageTitleWrapper: {
-        alignItems:'center', 
-        justifyContent:'center', 
-        textAlign:'center', 
-        width: 263 
+    pageTitleWrapper: { 
+        marginLeft:10,
+        width: "100%"
     },
 })

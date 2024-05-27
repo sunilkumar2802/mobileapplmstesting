@@ -1,12 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity ,Image } from 'react-native'
-import { CoursesTestCardsSvg1 } from '../svgs'
+import { StyleSheet, Text, View, TouchableOpacity ,Image } from 'react-native' 
 
-const CourseCard = ({ duration, title, subTitle,image , onClick }) => {
+const CourseCard = ({ duration, title, subTitle,image ,slug, onClick }) => {
     console.log(image )
+    console.log(slug)
     return (
-    <TouchableOpacity style={styles.coursesCardsItem} onPress={onClick}>
-        {/* <CoursesTestCardsSvg1 /> */}
+    <TouchableOpacity style={styles.coursesCardsItem} onPress={onClick}> 
         <Image source={{ uri: image }} style={styles.courseImage} /> 
         <View>
             <Text style={styles.courseDuration}>{ duration }</Text>

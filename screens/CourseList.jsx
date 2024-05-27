@@ -24,7 +24,9 @@ const Courselist = ({navigation}) => {
     
         loadCourses();
     }, []);
-    
+    const handleCoursePress = (slug) => {
+        navigation.navigate('Coursevideo', { slug });
+    };
 
     if (loading) { 
     }
@@ -40,12 +42,6 @@ const Courselist = ({navigation}) => {
         <>
             {/* <Header title={'My Courses'} pageHeaderStyle={{marginBottom:16}} goBack={navigation.goBack} />  */}
             <Header1 title={'My Courses'} pageHeaderStyle={{marginBottom:16}} /> 
-            
-            {/* <ScrollView contentContainerStyle={styles.coursesCardsWrapper} showsVerticalScrollIndicator={false}>
-                <CourseCard title={'Swift'} subTitle={'Advance 10 ios apps'} duration={'1 h 20 min'}    />
-                <CourseCard title={'Swift'} subTitle={'Advance 10 ios apps'} duration={'1 h 20 min'}   />
-                <CourseCard title={'Swift'} subTitle={'Advance 10 ios apps'} duration={'1 h 20 min'}  />
-            </ScrollView>   */}
             <ScrollView contentContainerStyle={styles.coursesCardsWrapper} showsVerticalScrollIndicator={false}>
                 {courses.map((course, index) => (
                     <CourseCard
@@ -53,7 +49,9 @@ const Courselist = ({navigation}) => {
                         title={course.title}
                         subTitle={course.subTitle}
                         duration={course.duration}
-                        image={course.image} // Adding course image
+                        image={course.image} 
+                        slug={course.slug}
+                        onClick={() => handleCoursePress(course.slug)}
                     />
                 ))}
             </ScrollView>

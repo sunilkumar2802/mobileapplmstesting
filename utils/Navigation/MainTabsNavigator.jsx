@@ -15,6 +15,7 @@ import Setting from '../../screens/Setting';
 import SingleCourse from '../../screens/SingleCourse';
 import YourCourses from '../../screens/YourCourses';
 import Tabs from './Tabs';
+import Coursevideo from '../../screens/Coursevideo';
 
 const ProfileStack = createStackNavigator();
 
@@ -67,6 +68,7 @@ const MainTabsNavigator = () => {
     // </Tab.Navigator>
     <CourselistStack.Navigator>
       <CourselistStack.Screen name="Courselist" component={CourseList} options={{ headerShown: false }} />
+      <CourselistStack.Screen name="Coursevideo" component={Coursevideo} options={{ headerShown: false }} />
     </CourselistStack.Navigator>
   )
 }

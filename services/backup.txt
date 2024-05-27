@@ -1,23 +1,91 @@
-import axios from 'axios';
 
-const API_BASE_URL = 'https://codebinx.com/api/';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View, BackHandler } from 'react-native';
+import CourseCard from '../components/CourseCard';
+import Header1 from '../components/Header1';
+import { fetchLearnings } from '../services/service.api';
 
-const api = axios.create({
-    baseURL: API_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
+const Courselist = ({ navigation }) => {
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [preventBack, setPreventBack] = useState(false); // Local state variable to control back button behavior
+
+    useEffect(() => {
+        const loadCourses = async () => {
+            try {
+                const data = await fetchLearnings();
+                console.log('Fetched data:', data); // Log the fetched data
+                setCourses(data.enrolments.map(enrolment => enrolment.course)); // Extracting courses from enrolments
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadCourses();
+
+        // Add event listener for Android back button
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            // Prevent default behavior (going back) if preventBack is true
+            if (preventBack) {
+                return true;
+            }
+            return false; // Allow default behavior (going back) if preventBack is false
+        });
+
+        // Clean up event listener when component unmounts
+        return () => backHandler.remove();
+    }, [preventBack]); // Include preventBack in the dependency array
+
+    const handleCoursePress = (slug) => {
+        navigation.navigate('Coursevideo', { slug });
+    };
+
+    if (loading) {
+    }
+
+    if (error) {
+        return (
+            <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>Error: {error}</Text>
+            </View>
+        );
+    }
+
+    return (
+        <>
+            <Header1 title={'My Courses'} pageHeaderStyle={{ marginBottom: 16 }} />
+            <ScrollView contentContainerStyle={styles.coursesCardsWrapper} showsVerticalScrollIndicator={false}>
+                {courses.map((course, index) => (
+                    <CourseCard
+                        key={index}
+                        title={course.title}
+                        subTitle={course.subTitle}
+                        duration={course.duration}
+                        image={course.image}
+                        slug={course.slug}
+                        onClick={() => handleCoursePress(course.slug)}
+                    />
+                ))}
+            </ScrollView>
+        </>
+    );
+};
+
+export default Courselist;
+
+const styles = StyleSheet.create({
+    coursesCardsWrapper: {
+        alignItems: 'center',
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        color: 'red',
     },
 });
-
-export const fetchData = async (email, password) => {
-    const data = { email, password };
-
-    try {
-        const response = await api.post('users/signin-mobile', data);
-        console.log('response', response);
-        return response.data;
-    } catch (error) {
-        console.error('Fetch error:', error);
-        throw error; 
-    }
-};

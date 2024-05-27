@@ -58,13 +58,13 @@ const Login = ({ navigation }) => {
             <View style={styles.publicTextWrapper}>
                 <View style={styles.textWrapper}>
                     <Text style={styles.pageTitle}>Log in</Text>
-                    <Text style={styles.pageDescription}>Login with social networks</Text>
+                    {/* <Text style={styles.pageDescription}>Login with social networks</Text> */}
                 </View>
-                <View style={styles.socialMediaWrapper}>
+                {/* <View style={styles.socialMediaWrapper}>
                     <EvilIcon size={22} name="sc-facebook" color="white" wrapperStyle={styles.socialMediaItem} isClickable={true} />
                     <EvilIcon size={22} name="sc-instagram" color="white" wrapperStyle={styles.socialMediaItem} isClickable={true} />
                     <EvilIcon size={22} name="sc-google-plus" color="white" wrapperStyle={styles.socialMediaItem} isClickable={true} />
-                </View>
+                </View> */}
             </View>
             <View style={styles.loginFormWrapper}>
                 <CustomTextInput

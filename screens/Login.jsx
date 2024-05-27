@@ -41,6 +41,8 @@ const Login = ({ navigation }) => {
         } finally {
             setLoading(false);
         }
+
+
     };
 
     const validateEmail = (email) => {

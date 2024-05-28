@@ -1,7 +1,7 @@
 
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { fetchCoursevideo, fetchCourseDetails, fetchCourseassets } from '../services/service.api';
 import Header from '../components/Header';
@@ -19,8 +19,10 @@ const Coursevideo = ({ route }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
+    const [selectedVideoId, setSelectedVideoId] = useState(null);
     const [activeTab, setActiveTab] = useState('overview');
     const [expandedGroup, setExpandedGroup] = useState(null);
+    const scrollViewRef = useRef();
 
     useEffect(() => {
         const loadCourse = async () => {
@@ -34,7 +36,8 @@ const Coursevideo = ({ route }) => {
                 setVideos(videoData);
                 setAssets((assetData.assets || []).sort((a, b) => a.assetorder - b.assetorder));
                 if (videoData.length > 0) {
-                    setSelectedVideoUrl(videoData[0].video); // Set the first video URL as default
+                    setSelectedVideoUrl(videoData[0].video); 
+                    setSelectedVideoId(videoData[0].id);
                 }
             } catch (err) {
                 setError(err.message);
@@ -49,7 +52,11 @@ const Coursevideo = ({ route }) => {
     const handleDownload = (url) => {
         Linking.openURL(url).catch((err) => console.error('An error occurred', err));
     };
-
+    const handleVideoSelect = (videoUrl , videoId) => {
+        setSelectedVideoUrl(videoUrl);
+        setSelectedVideoId(videoId);
+        scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+    };
     const toggleAccordion = (group_name) => {
         setExpandedGroup(expandedGroup === group_name ? null : group_name);
     };
@@ -74,13 +81,15 @@ const Coursevideo = ({ route }) => {
         <>
             <Header title={courseDetails ? courseDetails.title : 'Loading...'} pageHeaderStyle={{ marginBottom: 16 }} />
             <View style={styles.container}>
-                <ScrollView contentContainerStyle={styles.coursesCardsWrapper} showsVerticalScrollIndicator={false}>
+                <ScrollView contentContainerStyle={styles.coursesCardsWrapper} showsVerticalScrollIndicator={false}  ref={scrollViewRef}>
                     {selectedVideoUrl && (
                         <WebView
                             style={styles.webView}
                             javaScriptEnabled={true}
                             domStorageEnabled={true}
+                            allowsFullscreenVideo={true}
                             source={{ uri: selectedVideoUrl }}
+                            mediaPlaybackRequiresUserAction={false}
                         />
                     )}
                     <View style={styles.tabContainer}>
@@ -118,19 +127,24 @@ const Coursevideo = ({ route }) => {
                             ))}
                         </ScrollView>
                     )}
+                    
+                    <Text style={[styles.title,{ marginTop: 12 }]}>Video List</Text>
                     {Object.keys(groupedVideos).map((group_name, index) => (
                         <View key={group_name}>
                             <TouchableOpacity onPress={() => toggleAccordion(group_name)}>
                                 <Text style={[styles.videoTitle, { marginBottom: 8 ,justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }]}>
                                     {group_name} {expandedGroup === group_name ? '-' : '+'}
-                                </Text>
+                                </Text> 
                             </TouchableOpacity>
                             {expandedGroup === group_name && (
                                 <View>
                                     {groupedVideos[group_name].map((video) => (
-                                        <TouchableOpacity key={video.id} onPress={() => setSelectedVideoUrl(video.video)}>
-                                            <View style={styles.videoContainer}>
-                                                <Text style={styles.videoTitle1}>{video.title} {formatVideoLength(video.video_length)}</Text>
+                                        <TouchableOpacity 
+                                            key={video.id} 
+                                            onPress={() => handleVideoSelect(video.video, video.id)}
+                                        >
+                                            <View style={[styles.videoContainer, selectedVideoId === video.id && styles.activeVideoContainer]}>
+                                                <Text style={[styles.videoTitle1, selectedVideoId === video.id && styles.activeVideoTitle]}>{video.title} {formatVideoLength(video.video_length)}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     ))}
@@ -180,9 +194,17 @@ const styles = StyleSheet.create({
     },
     videoTitle1:{
         fontSize:16,
+        color: 'black',
+        marginLeft:10,
     },
     videoContainer: {
         marginBottom: 16,
+    },
+    activeVideoContainer: {
+        // backgroundColor: '#d3d3d3', 
+    },
+    activeVideoTitle: {
+        color: '#ff5d5d',
     },
     coursesCardsWrapper: {
         flexGrow: 1,

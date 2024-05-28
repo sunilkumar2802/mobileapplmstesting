@@ -56,17 +56,17 @@ const Login = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <LoginBanner />
+            <LoginBanner style={styles.logo} />
             <View style={styles.publicTextWrapper}>
                 <View style={styles.textWrapper}>
                     <Text style={styles.pageTitle}>Log in</Text>
-                    <Text style={styles.pageDescription}>Login with social networks</Text>
+                    {/* <Text style={styles.pageDescription}>Login with social networks</Text> */}
                 </View>
-                <View style={styles.socialMediaWrapper}>
+                {/* <View style={styles.socialMediaWrapper}>
                     <EvilIcon size={22} name="sc-facebook" color="white" wrapperStyle={styles.socialMediaItem} isClickable={true} />
                     <EvilIcon size={22} name="sc-instagram" color="white" wrapperStyle={styles.socialMediaItem} isClickable={true} />
                     <EvilIcon size={22} name="sc-google-plus" color="white" wrapperStyle={styles.socialMediaItem} isClickable={true} />
-                </View>
+                </View> */}
             </View>
             <View style={styles.loginFormWrapper}>
                 <CustomTextInput
@@ -82,30 +82,36 @@ const Login = ({ navigation }) => {
                     onChangeText={setPassword}
                     secureTextEntry
                 />
-                <TouchableLink title="Forgot Password?" />
+                {/* have to add "Forgot Password?" in below "title" */}
+                <TouchableLink title="" /> 
                 <Button title="Log in" onClick={handleLogin} disabled={!isFormValid || loading} />
                 {/* <Button title={'Log in'} onClick={()=>{
                         console.log('here we are1 ')
                         navigation.navigate('MainScreen')
                     }} /> */}
-                <TouchableLink title="Sign up" onClick={() => navigation.navigate('SignUp')} />
+                <TouchableLink  title="Sign up" onClick={() => navigation.navigate('SignUp')} />
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+
+    logo:{
+marginTop:90,
+    },
     container: {
         flex: 1,
-        padding: 16,
+        padding: 10,
         backgroundColor: '#fff',
+    
     },
     publicTextWrapper: {
         marginBottom: 20,
     },
     textWrapper: {
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 2,
     },
     pageTitle: {
         fontSize: 24,
@@ -123,8 +129,15 @@ const styles = StyleSheet.create({
     socialMediaItem: {
         marginHorizontal: 10,
     },
+    // loginFormWrapper: {
+    //     marginBottom: 20,
+    // },
     loginFormWrapper: {
-        marginBottom: 20,
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        flex: 1,  
+        width: '100%',  
+        marginBottom: 30,
     },
 });
 

@@ -13,7 +13,7 @@ const Courselist = ({navigation}) => {
         const loadCourses = async () => {
             try {
                 const data = await fetchLearnings();
-                console.log('Fetched data:', data); // Log the fetched data
+                // console.log('Fetched data:', data); // Log the fetched data
                 setCourses(data.enrolments.map(enrolment => enrolment.course)); // Extracting courses from enrolments
             } catch (err) {
                 setError(err.message);
@@ -24,8 +24,8 @@ const Courselist = ({navigation}) => {
     
         loadCourses();
     }, []);
-    const handleCoursePress = (slug) => {
-        navigation.navigate('Coursevideo', { slug });
+    const handleCoursePress = (slug, id) => {
+        navigation.navigate('Coursevideo', { slug, id });
     };
 
     if (loading) { 
@@ -51,7 +51,8 @@ const Courselist = ({navigation}) => {
                         duration={course.duration}
                         image={course.image} 
                         slug={course.slug}
-                        onClick={() => handleCoursePress(course.slug)}
+                        id={course.id}
+                        onClick={() => handleCoursePress(course.slug, course.id)}
                     />
                 ))}
             </ScrollView>

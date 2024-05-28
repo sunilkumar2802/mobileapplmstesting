@@ -38,7 +38,7 @@ export const fetchData = async (email, password) => {
     try {
         const response = await api.post('users/signin-mobile/', data); 
         const token = response.data.elarniv_users_token;
-        console.log('response', token);
+        // console.log('response', token);
         await storeToken(token);;
         return response.data;
     } catch (error) {
@@ -52,7 +52,7 @@ export const fetchDatasignup = async (first_name, email, password, mobile ) => {
 
     try {
         const response = await api.post('users/signup-mobile/', data);
-        console.log('response', response);
+        // console.log('response', response);
         const token = response.data.elarniv_users_token;
         await storeToken(token);
         return response.data;
@@ -77,7 +77,7 @@ export const fetchLearnings = async () => {
                 'Authorization': `${elarnivUsersToken}`
             }
         });
-        console.log('response', response);
+        // console.log('response', response);
         return response.data;
     } catch (error) {
         console.error('Fetch error:', error);
@@ -87,7 +87,7 @@ export const fetchLearnings = async () => {
 
 //Course-Video
 export const fetchCoursevideo = async (slug) => {
-    console.log(slug);
+    // console.log(slug);
     const elarnivUsersToken = await retrieveToken();
     if (!elarnivUsersToken) {
         throw new Error('User is not authenticated');
@@ -101,8 +101,8 @@ export const fetchCoursevideo = async (slug) => {
                 'Authorization': `${elarnivUsersToken}`
             }
         });
-        console.log('response', response);
-        console.log('response response.data',response.data)
+        // console.log('response', response);
+        // console.log('response response.data',response.data)
         return response.data.videos;
         
     } catch (error) {
@@ -112,7 +112,7 @@ export const fetchCoursevideo = async (slug) => {
 };
 
 export const fetchCourseDetails = async (slug) => {
-    console.log(slug);
+    // console.log(slug);
     const elarnivUsersToken = await retrieveToken();
     if (!elarnivUsersToken) {
         throw new Error('User is not authenticated');
@@ -126,9 +126,34 @@ export const fetchCourseDetails = async (slug) => {
                 'Authorization': `${elarnivUsersToken}`
             }
         });
-        console.log('response', response);
-        console.log('response response.data',response.data)
+        // console.log('response', response);
+        // console.log('response response.data',response.data)
         return response.data.course;
+        
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+};
+
+export const fetchCourseassets = async (id) => {
+    // console.log(slug);
+    const elarnivUsersToken = await retrieveToken();
+    if (!elarnivUsersToken) {
+        throw new Error('User is not authenticated');
+        console.log(' User is not authenticated');
+
+    }
+
+    try {
+        const response = await api.get(`assets/${id}/`, {
+            headers: {
+                'Authorization': `${elarnivUsersToken}`
+            }
+        });
+        // console.log('response', response);
+        // console.log('response response.data',response.data)
+        return response.data;
         
     } catch (error) {
         console.error('Fetch error:', error);

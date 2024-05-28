@@ -35,10 +35,14 @@ const Login = ({ navigation }) => {
             const response = await fetchData(email, password);
             console.log('Login successful:', response);
             navigation.navigate('MainScreen');
-        } catch (error) {
+        }catch (error) {
             console.error('Login error:', error);
-            Alert.alert('Login Failed', error.message);
-        } finally {
+            if (error.response && error.response.data && error.response.data.message) {
+                Alert.alert('Login Failed', error.response.data.message);
+            } else {
+                Alert.alert('Login Failed', error.message);
+            }
+            } finally {
             setLoading(false);
         }
 
